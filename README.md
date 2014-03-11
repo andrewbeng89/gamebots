@@ -34,6 +34,6 @@
 16. Do not create an RDS DB instance
 17. Start the environment: `eb start`
 18. `git add -A .`
-19. `git commit -m "creating new gamebots project"`
+19. `git commit -a -m "creating new gamebots project"`
 20. `git push origin master && git aws.push`
 21. Visit the [Elastic Beanstalk Console](https://console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-1#/applications?applicationNameFilter=) to view your application's build status
