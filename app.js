@@ -67,7 +67,6 @@ app.post('/verify', function(req, res) {
         var json_data = querystring.stringify({
           jsonrequest : JSON.stringify(jsonrequest)
         });
-        console.log(JSON.stringify(jsonrequest));
         var options = {
           host : 'ec2-54-251-204-6.ap-southeast-1.compute.amazonaws.com',
           path : '/' + lang,

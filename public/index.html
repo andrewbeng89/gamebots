@@ -69,8 +69,8 @@
         $scope.bots = [];
         $scope.new_bot = {
           name: 'New Bot',
-          language: 'python',
-          code: 'def play_game(board,side):\n  return board.replace("_",side,1)'
+          language: 'js',
+          code: "function play_game(board,side) {\n  return board.replace('_',side);\n}"
         };
         first_bot = {
           name: "First Bot",
@@ -80,12 +80,12 @@
         skip_bot = {
           name: "Skip Bot",
           language: 'js',
-          code: "function play_game(board,side) {\n  return board.replace('_',side);\n}"
+          code: "function play_game(board,side) {\n  if(board.indexOf('___') > -1) {\n    return board.replace('___','__'+side);\n  } else {\n    return board.replace('_',side);\n  }\n}"
         };
         bad_bot = {
           name: "Bad Bot",
-          language: 'python',
-          code: 'def play_game(board,side): return "___,___,___"'
+          language: 'js',
+          code: "function play_game(board,side) {\n  return '___,___,___';\n}"
         };
         
         $scope.add_bot = function() {
