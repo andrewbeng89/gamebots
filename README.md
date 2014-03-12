@@ -39,4 +39,9 @@
 21. Visit the [Elastic Beanstalk Console](https://console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-1#/applications?applicationNameFilter=) to view your application's build status
 
 
+### Additional tutorials
+
+For for information on application development in the Cloud, including AngularJS, MongoDB and creating JSON APIs with Node.JS, please refer to [this](https://github.com/andrewbeng89/mitb_node_demo#part-3-application-development-in-the-cloud) repository.
+
+
 ### View the GameBots demo app [here](http://gamebots-env-hrrxxujvrm.elasticbeanstalk.com/index.html)
