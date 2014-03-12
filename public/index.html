@@ -65,7 +65,7 @@
           urlName: 'js'
         }, ];
 
-        $scope.language = 'python';
+        $scope.language = 'js';
         $scope.bots = [];
         $scope.new_bot = {
           name: 'New Bot',
@@ -74,13 +74,13 @@
         };
         first_bot = {
           name: "First Bot",
-          language: 'python',
-          code: 'def play_game(board,side):\n  return board.replace("_",side,1)'
+          language: 'js',
+          code: "function play_game(board,side) {\n  return board.replace('_',side);\n}"
         };
         skip_bot = {
           name: "Skip Bot",
-          language: 'python',
-          code: 'def play_game(board,side):\n  if "__" in board:return board.replace("__","_"+side,1)\n  else: return board.replace("_",side,1)'
+          language: 'js',
+          code: "function play_game(board,side) {\n  return board.replace('_',side);\n}"
         };
         bad_bot = {
           name: "Bad Bot",
@@ -99,6 +99,10 @@
 
         //Some example code for each language.
         $scope.d = {
+          "js": {
+            "solution": "function play_game(board,side) {\n  return '_________';\n}",
+            "tests": "assert_equal('ANYTHING',play_game('_________','X'))"
+          },
           "python": {
             "solution": "def play_game(board,side):\n  return '_________'",
             "tests": ">>> play_game('___,___,___','X')\n  'ANYTHING'\n"
@@ -111,11 +115,7 @@
             "solution": "a = 1\nb = 2",
             "tests": "assert_equal(1,a)\nassert_equal(2,b)",
             "hosts": ["parserplayground-staging.appspot.com/ruby?id=1", "parserplayground-staging.appspot.com/ruby?id=2"]
-          },
-          "js": {
-            "solution": "a=1;\nb=7;",
-            "tests": "assert_equal(1,a);\nassert_equal(2,b);"
-          },
+          }
         }
 
 
@@ -128,13 +128,16 @@
 
 
         // For the loadbalancer version with fewer options. 
-        $scope.VerifierModel = $resource('http://ec2-54-251-204-6.ap-southeast-1.compute.amazonaws.com/:language', {}, {
+        $scope.VerifierModel = $resource('/verify', {}, {
           'get': {
-            method: 'JSONP',
+            method: 'GET',
             isArray: false,
             params: {
-              vcallback: 'JSON_CALLBACK'
-            }
+              lang: $scope.language
+            },
+          'verify': {
+            method: 'POST'
+          }
           }
         });
         $scope.set_bot_1 = function(bot) {
@@ -218,58 +221,63 @@
           //Count X's to see who's turn it is.
           numX = $scope.current_board.split("_").length - 1;
           if (numX % 2 === 1) {
-            tests = ">>> play_game('" + $scope.current_board + "','X')\n  'ANYTHING'";
+            tests = "assert_equal('ANYTHING',play_game('" + $scope.current_board + "','X'))";
             data = {
               solution: playerX.code,
               tests: tests
             };
           } else {
-            tests = ">>> play_game('" + $scope.current_board + "','O')\n  'ANYTHING'";
+            tests = "assert_equal('ANYTHING',play_game('" + $scope.current_board + "','O'))";
             data = {
               solution: playerO.code,
               tests: tests
             };
 
           }
-          jsonrequest = btoa(JSON.stringify(data));
+          jsonrequest = data;
 
-          $scope.VerifierModel.get({
-              'language': $scope.language,
+          response = $scope.VerifierModel.get({
+              'lang': $scope.language,
               'jsonrequest': jsonrequest
-            },
-            function(response) {
-              $scope.result = response;
-              new_board = response.results[0].received;
-              console.log("the new board " + new_board);
-              $scope.game_history.push(new_board);
-              //Check of board is valid
-              if (!$scope.is_move_valid($scope.current_board, new_board)) {
-                return false;
-              }
-              $scope.current_board = new_board;
-              //Check if the game is over and who won. 
-              game_check = $scope.game_status($scope.current_board);
-
-              //Keep calling play_game until game is finished.
-              if (!game_check.finished) {
-                $scope.play_game(playerX, playerO);
-              } else {
-                $scope.winner = game_check.winner;
-              }
-            });
-
+          });
+          response.lang = $scope.language;
+          response.jsonrequest = jsonrequest;
+          response.$save(function(r) {
+            $scope.result = r;
+            console.log(r);
+            new_board = r.results[0].received;
+            console.log("the new board " + new_board);
+            $scope.game_history.push(new_board);
+            //Check of board is valid
+            if (!$scope.is_move_valid($scope.current_board, new_board)) {
+              return false;
+            }
+            $scope.current_board = new_board;
+            
+            //Check if the game is over and who won. 
+            game_check = $scope.game_status($scope.current_board);
+            //Keep calling play_game until game is finished.
+            if (!game_check.finished) {
+              $scope.play_game(playerX, playerO);
+            } else {
+              $scope.winner = game_check.winner;
+            }
+          });
         };
 
         $scope.verify = function(data) {
           //data = {solution: $scope.solution, tests: $scope.tests}
           //jsonrequest = JSON.stringify(data) 
-          jsonrequest = btoa(JSON.stringify(data));
+          jsonrequest = data;
 
           $scope.status = "Verifying";
           result = $scope.VerifierModel.get({
-            'language': $scope.language,
+            'lang': $scope.language,
             'jsonrequest': jsonrequest
           });
+          result.lang = $scope.language;
+          result.jsonrequest = jsonrequest
+          result.$save();
           $scope.result = result;
           return result;
 
