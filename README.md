@@ -9,14 +9,14 @@
 2. `cd gamebots`
 3. Reomve the .git directory `rm -rf .git`
 4. Create a new GitHub repository with your account
-5. Initialise the demo app as a git repo on the Nitrous.IO `git init`
+5. Initialise the demo app as a git repo in Nitrous.IO `git init`
 6. Add the remote to the newly create GitHub repository `git remote add origin git@github.com:<your_username>/<your_new_repo>.git`
 7. Run the GameBots app in the Nitrous.IO environment: `node app`
 
 
 ### Using the Elastic Beanstalk Command Line Interface Tools
 
-1. Sign up for Elastic Beanstalk, make sure you have create an [AWS Secret Key](https://console.aws.amazon.com/iam/home?#security_credential)
+1. Sign up for Elastic Beanstalk, make sure you have created an [AWS Secret Key](https://console.aws.amazon.com/iam/home?#security_credential)
 2. From the Nitrous.IO terminal, navigate to "home": `cd ~/`
 3. Download the modified version of the EB CLI Tools from the Nitrous.IO terminal: `wget https://dl.dropboxusercontent.com/u/6484381/AWS-ElasticBeanstalk-CLI-2.6.0.zip`
 4. Unzip: `unzip AWS-ElasticBeanstalk-CLI-2.6.0.zip`
@@ -37,3 +37,6 @@
 19. `git commit -a -m "creating new gamebots project"`
 20. `git push origin master && git aws.push`
 21. Visit the [Elastic Beanstalk Console](https://console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-1#/applications?applicationNameFilter=) to view your application's build status
+
+
+### View the GameBots demo app [here](http://gamebots-env-hrrxxujvrm.elasticbeanstalk.com/index.html)
