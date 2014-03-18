@@ -52,19 +52,11 @@ app.get('/verify', function(req, res) {
     jsonrequest: ''
   });
 });
-<<<<<<< HEAD
 
 // Code verification API using GET method
 app.post('/verify', function(req, res) {
   var _get = url.parse(req.url, true).query;
 
-=======
-
-// Code verification API using GET method
-app.post('/verify', function(req, res) {
-  var _get = url.parse(req.url, true).query;
-
->>>>>>> 7036902d3e337d83c2b6d1aedde6b67ffa9fc4f8
 	// jsonrequest param
 	var jsonrequest = (req.body['jsonrequest']) ? req.body['jsonrequest'] : undefined;
 
@@ -91,19 +83,11 @@ app.post('/verify', function(req, res) {
         // Handle data received
         response.on('data', function(chunk) {
           verified_results += chunk.toString();
-<<<<<<< HEAD
         });
         // Send the json response
         response.on("end", function() {
           res.jsonp(JSON.parse(verified_results));
         });
-=======
-        });
-        // Send the json response
-        response.on("end", function() {
-          res.jsonp(JSON.parse(verified_results));
-        });
->>>>>>> 7036902d3e337d83c2b6d1aedde6b67ffa9fc4f8
       }).on('error', function(e) {
         console.log("Got error: " + e.message);
       });
