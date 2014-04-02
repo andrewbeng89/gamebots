@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/andrewbeng89/gamebots.svg?branch=master)](https://travis-ci.org/andrewbeng89/gamebots)
+
 ### Set up Nitrous.IO Node.js Box
 1. If you have a Python Box, terminate it, OR create another Nitrous.IO account for Node.js
 2. Follow the [SSH Lab](https://docs.google.com/a/smu.edu.sg/document/d/15_1Ic9ysOgr2ZHWVKbEZEm2cGMXDtniYka2YY0IfZQ0) to create an SSH key pair for this box
