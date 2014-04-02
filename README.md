@@ -39,6 +39,56 @@
 21. Visit the [Elastic Beanstalk Console](https://console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-1#/applications?applicationNameFilter=) to view your application's build status
 
 
+### Setup and Build with Travis-CI
+
+1. Register for [Travis-CI](https://travis-ci.org) using your GitHub account
+2. From your Travis-CI [profile](https://travis-ci.org/profile) page, enable the newly created GitHub repository
+
+
+### Install Travis Ruby Gem
+
+The Travi-CI gem will be used to encrypt a OAuth2 token that will be used to push updates to Google App Engine from the Travis build.
+
+1. From the terminal, install the gem by entering `gem install travis`
+
+
+### AWS Security Credentials
+
+1. If you haven't, create an Access Key with a corresponding ID and Secret [here](https://portal.aws.amazon.com/gp/aws/securityCredentials)
+2. From the [EC2 console](https://console.aws.amazon.com/ec2/v2/home?region=ap-southeast-1), create a new Key Pair
+3. Copy the values of the Access Key and Secret
+
+
+### Automate EB updates with Travis
+
+These lines in the .travis.yml file automates the updates to EB. The AWS Access Key ID and Secrets will be encrypted by travis and used upon a successful build.
+
+<pre>
+  <code>
+after_success:
+- wget https://dl.dropboxusercontent.com/u/6484381/AWS-ElasticBeanstalk-CLI-2.6.0.zip
+- unzip AWS-ElasticBeanstalk-CLI-2.6.0.zip
+- export PATH=$PATH:$PWD/AWS-ElasticBeanstalk-CLI-2.6.0/eb/linux/python2.7
+- echo "no"|eb init -S $AWS_ACCESS_SECRET -I $AWS_ACCESS_KEY -a gamebots -e gamebots-env
+  --region "ap-southeast-1" -t "WebServer::Standard::1.0" -s "64bit Amazon Linux 2014.02 running Node.js" -f
+- eb push
+  </code>
+</pre>
+
+1. Encrypt you AWS Access Key ID with the travis gem: `travis encrypt AWS_ACCESS_KEY="<paste_key_id_from_clipboard>" --add`
+2. Encrypt you AWS Access Key Secret with the travis gem: `travis encrypt AWS_ACCESS_SECRET="<paste_key_secret_from_clipboard>" --add`
+3. Edit this line of the .travis.yml file: `-a <name-of-your-app> -e <name-of-your-app>-env`
+
+
+### Functional and Unit Testing with Moch and Travis-CI
+
+The Mocha module allows developers to create simple functional and unit tests. In this sample app, the tests are in the /test/test.js file. This file tests the funcitonality of the index route. To break this test:
+
+1. Comment out lines 39-41 in /app.js
+2. Commit and push the changes
+3. Track the build progress on travis-ci
+
+
 ### Additional tutorials
 
 For for information on application development in the Cloud, including AngularJS, MongoDB and creating JSON APIs with Node.JS, please refer to [this](https://github.com/andrewbeng89/mitb_node_demo#part-3-application-development-in-the-cloud) repository.

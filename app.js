@@ -36,9 +36,9 @@ app.configure('development', function(){
 
 // Routes
 
-app.get('/', function(req, res) {
+/*app.get('/', function(req, res) {
     res.redirect('/index.html');
-});
+});*/
 
 app.get('/verify', function(req, res) {
   var _get = url.parse(req.url, true).query;
