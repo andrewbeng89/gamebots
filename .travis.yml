@@ -1,0 +1,24 @@
+travislanguage: node_js
+node_js:
+- '0.11'
+- '0.10'
+- '0.8'
+branches:
+  only:
+  - master
+before_script:
+- npm install -g mocha
+script:
+- npm -d install
+- npm test
+after_success:
+- wget https://dl.dropboxusercontent.com/u/6484381/AWS-ElasticBeanstalk-CLI-2.6.0.zip
+- unzip AWS-ElasticBeanstalk-CLI-2.6.0.zip
+- export PATH=$PATH:$PWD/AWS-ElasticBeanstalk-CLI-2.6.0/eb/linux/python2.7
+- echo "No"|eb init -S $AWS_ACCESS_SECRET -I $AWS_ACCESS_KEY -a gamebots -e gamebots-env
+  --region "ap-southeast-1" -t "WebServer::Standard::1.0" -s "64bit Amazon Linux 2014.02 running Node.js"
+- eb push
+env:
+  global:
+  - secure: GQ0NYKb297ecRqa7AcHJUaFBHHWDp+XHq5S2QLIOseBb7KocBaY7m85LjAcu7Ej3MsoEqGEI6B2VYGCknlN/NLQBpbPA+jlAFmA5Qe7tg1XVCvl0YiWNy0BANzDIEHIy2TLXKCbAf99DViZBcfsx1y9pA0KnML++Jf97LMAvt3Q=
+  - secure: TbT31NQHuaGNucc7b0l2/HmZo1up+nfWIJtEWmXOabaPeXzXv5tbMbSoiUFLISEIslGkuC2laKYM5pshaU/VQQhuCQMC8ZfEffxGHKt2B7OWsy3V+v3udxav2dDsgjsP3LeHUvqLo6UAPtpwovIZOpMs86yJHspH5CQOz7wVhIg=
