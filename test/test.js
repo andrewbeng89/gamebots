@@ -1,9 +1,9 @@
 var app = require('../app'), http = require('http'), request = require('supertest'), assert = require('assert');
 
-describe('GET /index.html', function(){
-  it('get index.html', function(done){
+describe('GET /test', function(){
+  it('get test API', function(done){
     request(app)
-      .get('/index.html')
+      .get('/test')
       .expect(200, done);
   });
 });

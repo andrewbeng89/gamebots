@@ -82,9 +82,9 @@ after_success:
 
 ### Functional and Unit Testing with Moch and Travis-CI
 
-The Mocha module allows developers to create simple functional and unit tests. In this sample app, the tests are in the /test/test.js file. This file tests the funcitonality of the index route. To break this test:
+The Mocha module allows developers to create simple functional and unit tests. In this sample app, the tests are in the /test/test.js file. This file tests the funcitonality of a single API call /test. To break this test:
 
-1. Comment out lines 39-41 in /app.js
+1. Comment out lines 43-47 in /app.js
 2. Commit and push the changes
 3. Track the build progress on travis-ci
 
