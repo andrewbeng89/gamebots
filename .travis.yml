@@ -15,7 +15,7 @@ after_success:
 - wget https://dl.dropboxusercontent.com/u/6484381/AWS-ElasticBeanstalk-CLI-2.6.0.zip
 - unzip AWS-ElasticBeanstalk-CLI-2.6.0.zip
 - export PATH=$PATH:$PWD/AWS-ElasticBeanstalk-CLI-2.6.0/eb/linux/python2.7
-- echo 1|echo n|echo 1|echo 12|echo 1|echo gamebots-env|echo gamebots|echo 5|echo $AWS_ACCESS_KEY|echo $AWS_ACCESS_SECRET|eb init
+- echo "no"|eb init -S $AWS_ACCESS_SECRET -I $AWS_ACCESS_KEY
 - eb push
 env:
   global:
