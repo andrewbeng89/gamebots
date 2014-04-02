@@ -16,7 +16,7 @@ after_success:
 - unzip AWS-ElasticBeanstalk-CLI-2.6.0.zip
 - export PATH=$PATH:$PWD/AWS-ElasticBeanstalk-CLI-2.6.0/eb/linux/python2.7
 - echo "No"|eb init -S $AWS_ACCESS_SECRET -I $AWS_ACCESS_KEY -a gamebots -e gamebots-env
-  --region "ap-southeast-1" -t "WebServer::Standard::1.0" -s "64bit Amazon Linux 2014.02 running Node.js"
+  --region "ap-southeast-1" -t "WebServer::Standard::1.0" -s "64bit Amazon Linux 2014.02 running Node.js" -f
 - eb push
 env:
   global:
